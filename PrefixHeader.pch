@@ -1,0 +1,33 @@
+//
+//  PrefixHeader.pch
+//  TestWatchOSApp
+//
+//  Created by Company on 2019/09/22.
+//  Copyright © 2019 Active User Co.,LTD. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#endif /* PrefixHeader_pch */
+#define APP_GROUP @"group.co.au.TestWatchApp"
+#define LSTR(s) NSLocalizedString((s), nil)
+
+#ifdef DEBUG
+#  define LOG(...) NSLog(__VA_ARGS__)
+#  define LOG_CURRENT_METHOD NSLog(@"%@/%@", NSStringFromClass([self class]), NSStringFromSelector(_cmd))
+#else
+#  define LOG(...) ;
+#  define LOG_CURRENT_METHOD ;
+#endif
+#define PREPARE_SELF __weak typeof(self) SELF = self
+
+#define TTAsyncMain(...) dispatch_async(dispatch_get_main_queue(), ##__VA_ARGS__)
+#define TTAsync(...) dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ##__VA_ARGS__)
+#define TTOnce(...) { \
+static dispatch_once_t __wb_oncePred; \
+dispatch_once(&__wb_oncePred, ##__VA_ARGS__); \
+}

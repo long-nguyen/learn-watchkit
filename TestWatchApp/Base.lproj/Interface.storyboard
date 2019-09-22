@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="14868" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
+    <device id="watch38"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="14643"/>
+    </dependencies>
+    <scenes>
+        <!--interfaceVC-->
+        <scene sceneID="aou-V4-d1y">
+            <objects>
+                <controller identifier="interfaceVC" id="AgC-eL-Hgc" customClass="InterfaceController">
+                    <items>
+                        <table alignment="left" id="eoa-wx-wt9">
+                            <items>
+                                <tableRow identifier="rowIden" id="EsP-No-AD3" customClass="RowController">
+                                    <group key="rootItem" width="1" alignment="left" id="5G8-tz-g1Y">
+                                        <items>
+                                            <label width="20" alignment="left" verticalAlignment="center" text="30" textAlignment="left" id="dzf-bg-8of"/>
+                                            <label width="1" widthAdjustment="-20" alignment="left" verticalAlignment="center" text="A cup of Coffee" numberOfLines="0" minimumScaleFactor="0.40000000000000002" id="VMr-pp-1Cm"/>
+                                        </items>
+                                    </group>
+                                    <connections>
+                                        <outlet property="countLbl" destination="dzf-bg-8of" id="Q5N-6Y-U2M"/>
+                                        <outlet property="titleLbl" destination="VMr-pp-1Cm" id="R4w-Lp-JDj"/>
+                                    </connections>
+                                </tableRow>
+                            </items>
+                        </table>
+                    </items>
+                    <connections>
+                        <outlet property="tbView" destination="eoa-wx-wt9" id="I9Q-Jm-qT0"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="129" y="48"/>
+        </scene>
+        <!--Static Notification Interface Controller-->
+        <scene sceneID="AEw-b0-oYE">
+            <objects>
+                <notificationController id="YCC-NB-fut">
+                    <items>
+                        <label alignment="left" text="Alert Label" numberOfLines="0" id="IdU-wH-bcW"/>
+                    </items>
+                    <notificationCategory key="notificationCategory" identifier="myCategory" id="JfB-70-Muf"/>
+                    <connections>
+                        <outlet property="notificationAlertLabel" destination="IdU-wH-bcW" id="JKC-fr-R95"/>
+                        <segue destination="4sK-HA-Art" kind="relationship" relationship="dynamicNotificationInterface" id="kXh-Jw-8B1"/>
+                        <segue destination="eXb-UN-Cd0" kind="relationship" relationship="dynamicInteractiveNotificationInterface" id="mpB-YA-K8N"/>
+                    </connections>
+                </notificationController>
+            </objects>
+            <point key="canvasLocation" x="220" y="643"/>
+        </scene>
+        <!--Notification Controller-->
+        <scene sceneID="ZPc-GJ-vnh">
+            <objects>
+                <controller id="4sK-HA-Art" customClass="NotificationController"/>
+            </objects>
+            <point key="canvasLocation" x="468" y="643"/>
+        </scene>
+        <!--interfaceDetailVC-->
+        <scene sceneID="D1e-tN-IoF">
+            <objects>
+                <controller identifier="interfaceDetailVC" id="iZj-jz-HYA" customClass="InterfaceDetailViewController">
+                    <items>
+                        <button width="1" height="30" alignment="left" backgroundImage="chevron.up" catalog="system" id="TLq-di-23u">
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <fontDescription key="font" type="system" pointSize="16"/>
+                            <connections>
+                                <action selector="onUpClicked" destination="iZj-jz-HYA" id="XKI-iZ-w4e"/>
+                            </connections>
+                        </button>
+                        <label width="1" alignment="center" verticalAlignment="center" text="20" textAlignment="center" id="lIO-jH-fEK">
+                            <fontDescription key="font" type="system" weight="thin" pointSize="50"/>
+                        </label>
+                        <button width="1" height="30" alignment="left" verticalAlignment="bottom" backgroundImage="chevron.down" catalog="system" id="wmN-N7-tTm">
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="onDownClicked" destination="iZj-jz-HYA" id="Qy0-r3-QYl"/>
+                            </connections>
+                        </button>
+                    </items>
+                    <connections>
+                        <outlet property="detailCountLbl" destination="lIO-jH-fEK" id="d6R-ZN-FSH"/>
+                        <outlet property="downBt" destination="wmN-N7-tTm" id="lbC-rC-CgF"/>
+                        <outlet property="upBt" destination="TLq-di-23u" id="nke-7Q-wj1"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="475" y="48"/>
+        </scene>
+        <!--Notification Controller-->
+        <scene sceneID="Niz-AI-uX2">
+            <objects>
+                <controller id="eXb-UN-Cd0" customClass="NotificationController"/>
+            </objects>
+            <point key="canvasLocation" x="468" y="345"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="chevron.down" catalog="system" width="64" height="36"/>
+        <image name="chevron.up" catalog="system" width="64" height="36"/>
+    </resources>
+</document>

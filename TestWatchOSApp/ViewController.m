@@ -7,6 +7,9 @@
 //
 
 #import "ViewController.h"
+#import "DataManager.h"
+#import "DBHelper.h"
+#import "FCLocationManager.h"
 
 @interface ViewController ()
 
@@ -16,7 +19,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    NSNumber *didWatchStart = [DataManager.sharedManager getPref:@"firstStartClock"];
+    NSLog(@"started : %@", didWatchStart);
+    NSArray *allData = [[DBHelper sharedManager] getAllData];
+    NSLog(@"Num of items: %d", allData.count);
 }
 
 
