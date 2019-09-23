@@ -7,8 +7,10 @@
 //
 
 #import "AppDelegate.h"
+#import <WatchConnectivity/WatchConnectivity.h>
 
-@interface AppDelegate ()
+
+@interface AppDelegate () <WCSessionDelegate>
 
 @end
 
@@ -16,7 +18,13 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    
+    //Setup connection to watch app
+    if (WCSession.isSupported) {
+        WCSession.defaultSession.delegate = self;
+        [WCSession.defaultSession activateSession];
+    }
+    
     return YES;
 }
 
@@ -37,5 +45,34 @@
     // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
 }
 
+
+#pragma mark Watch app
+
+-(void)session:(WCSession *)session didReceiveMessage:(NSDictionary<NSString *,id> *)message replyHandler:(void (^)(NSDictionary<NSString *,id> * _Nonnull))replyHandler {
+    if ([message objectForKey:@"request"]) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"A message from watch"
+                                                        message:@"something"
+                                                       delegate:self
+                                              cancelButtonTitle:@"Cancel"
+                                              otherButtonTitles:@"Say Hello",nil];
+        [alert show];
+        NSLog(@"message %@", [message objectForKey:@"request"]);
+        replyHandler(@{@"test":@"message"});
+    } else {
+        replyHandler(@{});
+    }
+}
+
+- (void)session:(nonnull WCSession *)session activationDidCompleteWithState:(WCSessionActivationState)activationState error:(nullable NSError *)error {
+    
+}
+
+- (void)sessionDidBecomeInactive:(nonnull WCSession *)session {
+    
+}
+
+- (void)sessionDidDeactivate:(nonnull WCSession *)session {
+    
+}
 
 @end

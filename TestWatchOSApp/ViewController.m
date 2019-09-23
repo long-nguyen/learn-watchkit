@@ -23,6 +23,8 @@
     NSLog(@"started : %@", didWatchStart);
     NSArray *allData = [[DBHelper sharedManager] getAllData];
     NSLog(@"Num of items: %d", allData.count);
+    //Always call this in the app first, not the watch. make the watch inherit this permission.
+    [[FCLocationManager sharedManager] startUpdatingLocation];
 }
 
 

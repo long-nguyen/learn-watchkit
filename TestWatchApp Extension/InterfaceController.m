@@ -13,6 +13,7 @@
 #import "DBHelper.h"
 #import "TTApiClient.h"
 #import "FCLocationManager.h"
+#import <WatchConnectivity/WatchConnectivity.h>
 
 /*How to make watchos and ios share code?
  Actually iOS can share dynamic framework with TodayExtension, but with watchOS, that not possible.
@@ -57,13 +58,35 @@ Help from: https://www.skoumal.com/en/own-dynamic-framework-for-ios-macos-watcho
     }
     
     //Try testing API OK
-    [[TTApiClient sharedClient] getMarketWithHandler:^(NSDictionary *resutl, NSError *error) {
+    [[TTApiClient sharedClient] getWallsWithHandler:^(NSDictionary *resutl, NSError *error) {
+    }];
+    
+    //Try location OK
+    [[FCLocationManager sharedManager] setDelegate:self];
+    
+    
+    //Try connect to app
+    [self loadAppData];
+    [NSNotificationCenter.defaultCenter addObserverForName:@"whatName" object:nil queue:NSOperationQueue.mainQueue usingBlock:^(NSNotification * _Nonnull note) {
         
     }];
     
-    //Try location
-    [[FCLocationManager sharedManager] setDelegate:self];
-    [[FCLocationManager sharedManager] startUpdatingLocation];
+    [NSNotificationCenter.defaultCenter addObserverForName:@"whatName2" object:nil queue:NSOperationQueue.mainQueue usingBlock:^(NSNotification * _Nonnull note) {
+        
+    }];
+}
+
+-(void)loadAppData {
+    if (WCSession.isSupported) {
+        //Try sending message to the phone
+        [WCSession.defaultSession sendMessage:@{@"request":@"test"} replyHandler:^(NSDictionary<NSString *,id> * _Nonnull replyMessage) {
+            //Code when got message
+            NSLog(@"got message from iPHone %@", replyMessage);
+        } errorHandler:^(NSError * _Nonnull error) {
+           //Code when error
+            NSLog(@"Error message from iPHone %@", error);
+        }];
+    }
 }
 
 -(void)reloadData {
@@ -90,6 +113,7 @@ Help from: https://www.skoumal.com/en/own-dynamic-framework-for-ios-macos-watcho
     //Giong viewWillAppear
     [super willActivate];
     NSLog(@"------- Will activate");
+    
     [self reloadData];
 }
 
@@ -97,6 +121,16 @@ Help from: https://www.skoumal.com/en/own-dynamic-framework-for-ios-macos-watcho
     [super didAppear];
     //OnScreen
     NSLog(@"------- didappear");
+    //Only use this when permission is enabled in app
+    if ([CLLocationManager authorizationStatus] != kCLAuthorizationStatusNotDetermined) {
+            // Request permission if necessary
+        [[FCLocationManager sharedManager] startUpdatingLocation];
+    } else {
+        //Tell user to grant permission inside the app
+        [self presentAlertControllerWithTitle:@"Location" message:@"Please open iOS app, pair with watch and enable location permission" preferredStyle:WKAlertControllerStyleAlert actions:@[[WKAlertAction actionWithTitle:@"OK" style:WKAlertActionStyleDefault handler:^{
+            
+        }]]];
+    }
 }
 
 -(void)willDisappear {
@@ -110,6 +144,7 @@ Help from: https://www.skoumal.com/en/own-dynamic-framework-for-ios-macos-watcho
     //Giong viewDidDisappear
     [super didDeactivate];
     NSLog(@"------- DidDeactivate");
+    [FCLocationManager.sharedManager stopUpdatingLocation];
 }
 
 #pragma mark location

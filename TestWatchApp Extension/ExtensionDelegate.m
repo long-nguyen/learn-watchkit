@@ -11,7 +11,10 @@
 @implementation ExtensionDelegate
 
 - (void)applicationDidFinishLaunching {
-    // Perform any final initialization of your application.
+    if (WCSession.isSupported) {
+        WCSession.defaultSession.delegate = self;
+        [WCSession.defaultSession activateSession];
+    }
 }
 
 - (void)applicationDidBecomeActive {
@@ -56,6 +59,11 @@
             [task setTaskCompletedWithSnapshot:NO];
         }
     }
+}
+
+#pragma mark watch app
+- (void)session:(nonnull WCSession *)session activationDidCompleteWithState:(WCSessionActivationState)activationState error:(nullable NSError *)error {
+    
 }
 
 @end

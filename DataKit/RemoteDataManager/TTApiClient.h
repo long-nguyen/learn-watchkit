@@ -24,7 +24,7 @@ typedef NS_ENUM(NSInteger, TTConnectErrorType) {
 #define kUNKNOW_ERROR LSTR(@"Unknow_Error")
 
 //#if DEBUG
-    #define API_BASE_URL  @"https://
+    #define API_BASE_URL  @"https://weatherapp.activeuser.co/v1/api/"
 //#endif
 
 /// -----------API base url
